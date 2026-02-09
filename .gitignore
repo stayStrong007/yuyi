@@ -1,0 +1,23 @@
+# Wails build outputs
+build/bin
+
+# Frontend dependencies and build outputs
+node_modules
+frontend/dist
+frontend/node_modules
+
+# Wails auto-generated files
+frontend/wailsjs
+frontend/app
+frontend/package.json.md5
+
+# IDE configurations (optional - uncomment if you want to ignore)
+# .vscode/
+# .idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Config files with sensitive data (if any)
+# config.json
