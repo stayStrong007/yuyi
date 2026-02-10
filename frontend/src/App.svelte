@@ -48,8 +48,7 @@
     try {
       results = await Translate(text);
       selectedIndex = 0; // 重置选中项
-    } catch (err) {
-      console.error('翻译失败:', err);
+    } catch {
       results = ['翻译出错，请重试'];
     } finally {
       isLoading = false;
@@ -113,8 +112,8 @@
           results = [];
           Hide();
         }, 300);
-      } catch (err) {
-        console.error('复制失败:', err);
+      } catch {
+        // 复制失败静默处理
       }
     }
   }
@@ -155,8 +154,8 @@
         model: config.model || '',
         targetLang: config.target_lang || ''
       };
-    } catch (err) {
-      console.error('加载配置失败:', err);
+    } catch {
+      // 加载失败使用默认值
     }
   }
 
@@ -177,8 +176,7 @@
       } else {
         copyFeedback = '保存失败';
       }
-    } catch (err) {
-      console.error('保存配置失败:', err);
+    } catch {
       copyFeedback = '保存失败';
     } finally {
       isSaving = false;

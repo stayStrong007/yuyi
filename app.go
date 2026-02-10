@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	_ "embed"
-	"fmt"
 
 	"github.com/getlantern/systray"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -38,14 +37,14 @@ func (a *App) startup(ctx context.Context) {
 	// 加载配置
 	config, err := LoadConfig()
 	if err != nil {
-		fmt.Println("加载配置失败:", err)
+		// 使用默认配置
 	}
 	a.config = config
 
 	// 初始化剪贴板
 	err = clipboard.Init()
 	if err != nil {
-		fmt.Println("剪贴板初始化失败:", err)
+		// 剪贴板初始化失败，功能将不可用
 	}
 
 	// 启动系统托盘（在单独的 goroutine 中运行）
@@ -103,12 +102,9 @@ func (a *App) startHotkeyListener() {
 	hk := hotkey.New([]hotkey.Modifier{hotkey.ModCtrl}, hotkey.KeySpace)
 	err := hk.Register()
 	if err != nil {
-		fmt.Println("热键注册失败:", err)
 		return
 	}
 	defer hk.Unregister()
-
-	fmt.Println("全局热键已启动，按 Ctrl+Space 唤醒/隐藏窗口")
 
 	for {
 		<-hk.Keydown()
@@ -149,7 +145,6 @@ func (a *App) Hide() {
 // CopyToClipboard 将文本写入剪贴板
 func (a *App) CopyToClipboard(text string) bool {
 	clipboard.Write(clipboard.FmtText, []byte(text))
-	fmt.Printf("[Clipboard] 已复制: %s\n", text)
 	return true
 }
 
@@ -158,19 +153,12 @@ func (a *App) IsWindowVisible() bool {
 	return a.isVisible
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
-}
-
 // Translate 翻译文本并返回多个候选结果
 func (a *App) Translate(text string) []string {
 	// 空文本返回空数组
 	if text == "" {
 		return []string{}
 	}
-
-	fmt.Printf("[Translate] 收到翻译请求: %s\n", text)
 
 	// 检查 API Key 配置
 	if a.config.APIKey == "" {
@@ -190,8 +178,6 @@ func (a *App) Translate(text string) []string {
 	)
 
 	results := translator.Translate(text)
-
-	fmt.Printf("[Translate] 返回 %d 个候选结果\n", len(results))
 	return results
 }
 
@@ -208,10 +194,7 @@ func (a *App) SaveSettings(apiKey, apiUrl, model, targetLang string) bool {
 	a.config.TargetLang = targetLang
 
 	if err := SaveConfig(a.config); err != nil {
-		fmt.Println("保存配置失败:", err)
 		return false
 	}
-
-	fmt.Println("[Settings] 配置已更新")
 	return true
 }

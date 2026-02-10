@@ -50,7 +50,6 @@ func LoadConfig() (*Config, error) {
 
 	// 如果文件不存在，返回默认配置
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
-		fmt.Println("[Config] 配置文件不存在，使用默认配置")
 		return DefaultConfig(), nil
 	}
 
@@ -66,7 +65,6 @@ func LoadConfig() (*Config, error) {
 		return DefaultConfig(), fmt.Errorf("解析配置文件失败: %w", err)
 	}
 
-	fmt.Printf("[Config] 配置已加载: %s\n", configPath)
 	return config, nil
 }
 
@@ -88,6 +86,5 @@ func SaveConfig(config *Config) error {
 		return fmt.Errorf("写入配置文件失败: %w", err)
 	}
 
-	fmt.Printf("[Config] 配置已保存: %s\n", configPath)
 	return nil
 }

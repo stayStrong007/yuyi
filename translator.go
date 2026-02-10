@@ -87,7 +87,6 @@ func (t *OpenAITranslator) Translate(text string) []string {
 		Timeout: 30 * time.Second,
 	}
 
-	fmt.Printf("[Translator] 发送请求到: %s\n", t.APIUrl)
 	resp, err := client.Do(req)
 	if err != nil {
 		return []string{fmt.Sprintf("Error: 网络请求失败 - %v", err)}
@@ -122,7 +121,6 @@ func (t *OpenAITranslator) Translate(text string) []string {
 	}
 
 	content := chatResp.Choices[0].Message.Content
-	fmt.Printf("[Translator] 收到响应: %s\n", content)
 
 	// 按换行符分割结果
 	results := splitResults(content)
